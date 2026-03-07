@@ -1,15 +1,31 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect, useBalance } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useBalance, useSwitchChain, useChainId } from "wagmi";
 import { baseSepolia } from "@/lib/wagmi";
 import { Button } from "@/components/ui/button";
-import { Wallet } from "lucide-react";
+import { Wallet, AlertTriangle } from "lucide-react";
 
 export function WalletConnect() {
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
+  const { switchChain } = useSwitchChain();
+  const chainId = useChainId();
   const { data: balance } = useBalance({ address, chainId: baseSepolia.id });
+  const isWrongNetwork = isConnected && chainId !== baseSepolia.id;
+
+  if (isWrongNetwork) {
+    return (
+      <Button
+        variant="outline"
+        className="gap-2 cursor-pointer border-destructive/50 text-destructive hover:bg-destructive/10"
+        onClick={() => switchChain({ chainId: baseSepolia.id })}
+      >
+        <AlertTriangle className="size-4" />
+        Switch to Base Sepolia
+      </Button>
+    );
+  }
 
   if (isConnected && address) {
     const short = `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -43,7 +59,7 @@ export function WalletConnect() {
       className="gap-2 cursor-pointer"
       onClick={() => {
         const connector = connectors[0];
-        if (connector) connect({ connector });
+        if (connector) connect({ connector, chainId: baseSepolia.id });
       }}
     >
       <Wallet className="size-4" />
