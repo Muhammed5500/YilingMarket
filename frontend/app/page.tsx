@@ -44,7 +44,7 @@ export default function LandingPage() {
       {/* Top nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-5">
         <span className="text-white/90 text-lg font-bold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
-          Yiling Protocol
+          Yiling Market
         </span>
         <a
           href="https://yiling-protocol-landing.vercel.app"
@@ -96,15 +96,13 @@ export default function LandingPage() {
             Enter Markets
             <ArrowRight className="size-4" />
           </Link>
-          <a
-            href="https://yiling-protocol-landing.vercel.app/docs/getting-started/quickstart"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/docs"
             className="inline-flex items-center gap-2 px-6 py-3.5 text-white/50 text-sm font-medium transition-colors hover:text-white/80"
           >
             Read the Docs
-            <ExternalLink className="size-3.5" />
-          </a>
+            <ArrowRight className="size-3.5" />
+          </Link>
         </div>
 
         {/* Stats */}
