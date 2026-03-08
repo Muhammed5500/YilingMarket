@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-      <WagmiProvider config={config} reconnectOnMount={false}>
+      <WagmiProvider config={config} reconnectOnMount>
         <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>
