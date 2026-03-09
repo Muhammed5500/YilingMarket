@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
-import { useChain } from "@/lib/chainContext";
+import { CHAINS } from "@/lib/contracts";
 
 const LightPillar = dynamic(() => import("@/components/LightPillar"), {
   ssr: false,
@@ -16,21 +16,30 @@ const TextType = dynamic(() => import("@/components/TextType"), {
 });
 
 export default function LandingPage() {
-  const { chainConfig } = useChain();
-  const [agentCount, setAgentCount] = useState(7);
+  const [agentCount, setAgentCount] = useState(0);
   const [marketCount, setMarketCount] = useState(0);
 
   useEffect(() => {
-    fetch(`${chainConfig.apiUrl}/api/stats`)
-      .then((r) => r.ok ? r.json() : null)
-      .then((data) => {
+    const urls = Object.values(CHAINS).map((c) => c.apiUrl).filter(Boolean);
+    Promise.all(
+      urls.map((url) =>
+        fetch(`${url}/api/stats`)
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null)
+      )
+    ).then((results) => {
+      let agents = 0;
+      let markets = 0;
+      for (const data of results) {
         if (data) {
-          if (data.total_agents > 0) setAgentCount(data.total_agents);
-          if (data.total_markets > 0) setMarketCount(data.total_markets);
+          agents += data.total_agents || 0;
+          markets += data.total_markets || 0;
         }
-      })
-      .catch(() => {});
-  }, [chainConfig.apiUrl]);
+      }
+      if (agents > 0) setAgentCount(agents);
+      if (markets > 0) setMarketCount(markets);
+    });
+  }, []);
 
   return (
     <div className="relative w-full h-dvh overflow-hidden bg-[#0c0a09]">
