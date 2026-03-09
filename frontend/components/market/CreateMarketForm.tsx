@@ -46,25 +46,8 @@ export function CreateMarketForm({ onClose, onSuccess, alwaysOpen }: CreateMarke
     e.preventDefault();
     if (!question.trim()) return;
 
-    // Validate question via AI
-    setIsValidating(true);
+    // AI validation disabled for now
     setValidationError("");
-    try {
-      const res = await fetch(`${chainConfig.apiUrl}/api/validate-question`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: question.trim() }),
-      });
-      const result = await res.json();
-      if (!result.valid) {
-        setValidationError(result.reason || "This question is not suitable for this market type.");
-        setIsValidating(false);
-        return;
-      }
-    } catch {
-      // If validation fails, allow through
-    }
-    setIsValidating(false);
 
     const alphaWad = parseEther((Number(alpha) / 100).toString());
     const flatReward = parseEther(r);
