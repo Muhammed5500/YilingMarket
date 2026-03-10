@@ -1,5 +1,5 @@
 """
-Yiling Market — Chain Watcher
+Yiling Protocol — Chain Watcher
 
 Polling-based blockchain watcher that monitors on-chain prediction market events
 and broadcasts them to the frontend dashboard via EventBroadcaster.
@@ -235,7 +235,7 @@ class ChainWatcher:
 
     def get_leaderboard(self):
         """Compute leaderboard from on-chain data for all resolved markets."""
-        leaderboard = {}  # address → total net ETH
+        leaderboard = {}  # address → total net MON
 
         for market_id in self.resolved_markets:
             try:

@@ -1,16 +1,16 @@
 from web3 import Web3
-# ExtraDataToPOAMiddleware removed — not needed for Base Sepolia
+from web3.middleware import ExtraDataToPOAMiddleware
 from config import load_abi
 
 WAD = 10**18
 
 
 class MarketClient:
-    """Yiling Market - Web3 client for interacting with the PredictionMarket contract."""
+    """Yiling Protocol - Web3 client for interacting with the PredictionMarket contract."""
 
     def __init__(self, rpc_url: str, contract_address: str, private_key: str):
-        self.w3 = Web3(Web3.HTTPProvider(rpc_url, request_kwargs={"timeout": 60}))
-        # POA middleware not needed for Base Sepolia
+        self.w3 = Web3(Web3.HTTPProvider(rpc_url))
+        self.w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
 
         self.account = self.w3.eth.account.from_key(private_key)
         self.address = self.account.address

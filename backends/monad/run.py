@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Yiling Market - Self-Resolving Prediction Market
+Yiling Protocol - Self-Resolving Prediction Market
 
-Oracle-free prediction market on Base with AI agent predictions.
+Oracle-free prediction market on Monad with AI agent predictions.
 Users create markets via the frontend (wallet connect).
 
 Two modes:
@@ -85,13 +85,13 @@ def print_watch_banner(args, protocol_config):
     print("  +---------------------------------------------------+")
     print("  |         YILING PROTOCOL                      |")
     print("  |   Self-Resolving Prediction Market (SKC)          |")
-    print("  |   Bond-Based - Oracle-Free - Base Sepolia          |")
+    print("  |   Bond-Based - Oracle-Free - Monad Testnet        |")
     print("  +---------------------------------------------------+")
     print()
     print(f"  Contract  : {CONTRACT_ADDRESS}")
     print(f"  Treasury  : {protocol_config['treasury']} (on-chain)")
     print(f"  Fee       : {protocol_config['protocol_fee_bps']/100}% (on-chain)")
-    print(f"  Network   : Base Sepolia ({RPC_URL})")
+    print(f"  Network   : Monad Testnet ({RPC_URL})")
     print(f"  Mode      : WATCH (read-only — standalone agents predict independently)")
     print(f"  Poll      : every {args.poll_interval}s")
     print(f"  Dashboard : frontend/index.html (ws://localhost:{args.ws_port})")
@@ -197,18 +197,18 @@ def print_orchestrate_banner(args, prediction_agents, protocol_config):
     print("  +---------------------------------------------------+")
     print("  |         YILING PROTOCOL                      |")
     print("  |   Self-Resolving Prediction Market (SKC)          |")
-    print("  |   Bond-Based - Oracle-Free - Base Sepolia          |")
+    print("  |   Bond-Based - Oracle-Free - Monad Testnet        |")
     print("  +---------------------------------------------------+")
     print()
     print(f"  Contract  : {CONTRACT_ADDRESS}")
     print(f"  Treasury  : {protocol_config['treasury']} (on-chain)")
     print(f"  Fee       : {protocol_config['protocol_fee_bps']/100}% (on-chain)")
-    print(f"  Network   : Base Sepolia ({RPC_URL})")
+    print(f"  Network   : Monad Testnet ({RPC_URL})")
     print(f"  Agents    : {len(prediction_agents)} active")
     for a in prediction_agents:
         print(f"               - {a.name} ({a.llm.provider_name})")
-    print(f"  Bond      : {DEFAULT_BOND_AMOUNT/1e18} ETH")
-    print(f"  Liquidity : {DEFAULT_LIQUIDITY_PARAM/1e18} ETH (b param)")
+    print(f"  Bond      : {DEFAULT_BOND_AMOUNT/1e18} MON")
+    print(f"  Liquidity : {DEFAULT_LIQUIDITY_PARAM/1e18} MON (b param)")
     print(f"  Mode      : ORCHESTRATE (built-in agents + webhook agents)")
     print(f"  Poll      : every {args.poll_interval}s")
     print(f"  Dashboard : frontend/index.html (ws://localhost:{args.ws_port})")
@@ -218,7 +218,7 @@ def print_orchestrate_banner(args, prediction_agents, protocol_config):
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="Yiling Market - Self-Resolving Prediction Market")
+    parser = argparse.ArgumentParser(description="Yiling Protocol - Self-Resolving Prediction Market")
     parser.add_argument("--mode", choices=["watch", "orchestrate"], default="watch",
                         help="Run mode: 'watch' (read-only dashboard) or 'orchestrate' (agents + webhooks)")
     parser.add_argument("--delay", type=float, default=DELAY_BETWEEN_PREDICTIONS,

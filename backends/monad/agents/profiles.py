@@ -1,5 +1,5 @@
 """
-Yiling Market — Agent Profiles
+Yiling Protocol — Agent Profiles
 
 Each profile defines a unique reasoning persona for prediction markets.
 Agents use different analytical frameworks to create genuine cognitive diversity.

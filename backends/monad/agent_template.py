@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Yiling Market — Custom Agent Template
+Yiling Protocol — Custom Agent Template
 
 A self-contained agent that watches for new prediction markets on-chain
 and submits predictions. Copy this file and modify decide_probability()
@@ -10,8 +10,8 @@ Requirements: pip install web3
 Usage: python agent_template.py
 
 Configure via environment variables:
-  AGENT_PRIVATE_KEY  - Your wallet private key (must hold ETH for bonds)
-  RPC_URL            - Base Sepolia RPC (default: https://sepolia.base.org)
+  AGENT_PRIVATE_KEY  - Your wallet private key (must hold MON for bonds)
+  RPC_URL            - Monad testnet RPC (default: https://testnet-rpc.monad.xyz)
   CONTRACT_ADDRESS   - PredictionMarket contract address
   POLL_INTERVAL      - Seconds between polls (default: 5)
 """
@@ -19,11 +19,11 @@ Configure via environment variables:
 import os
 import time
 from web3 import Web3
-# ExtraDataToPOAMiddleware removed — not needed for Base Sepolia
+from web3.middleware import ExtraDataToPOAMiddleware
 
 # ---- Config ----
-RPC_URL = os.getenv("RPC_URL", "https://sepolia.base.org")
-CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS", "0x100647AC385271d5f955107c5C18360B3029311c")
+RPC_URL = os.getenv("RPC_URL", "https://testnet-rpc.monad.xyz")
+CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS", "0xDb44158019a88FEC76E1aBC1F9fE80c6C87DAD65")
 PRIVATE_KEY = os.getenv("AGENT_PRIVATE_KEY", "")
 POLL_INTERVAL = float(os.getenv("POLL_INTERVAL", "5"))
 
@@ -143,7 +143,7 @@ class CustomAgent:
             raise ValueError("Set AGENT_PRIVATE_KEY environment variable")
 
         self.w3 = Web3(Web3.HTTPProvider(RPC_URL))
-        # POA middleware not needed for Base Sepolia
+        self.w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
 
         self.account = self.w3.eth.account.from_key(PRIVATE_KEY)
         self.address = self.account.address
@@ -205,7 +205,7 @@ class CustomAgent:
         balance = self.w3.eth.get_balance(self.address)
         needed = bond_amount + 5_000_000 * self.w3.eth.gas_price
         if balance < needed:
-            print(f"  Insufficient balance ({balance/1e18:.4f} ETH), need ~{needed/1e18:.4f}")
+            print(f"  Insufficient balance ({balance/1e18:.4f} MON), need ~{needed/1e18:.4f}")
             return
 
         current_price = info["current_price"] / WAD
@@ -221,7 +221,7 @@ class CustomAgent:
         prob_wad = max(int(0.01e18), min(int(0.99e18), prob_wad))
 
         print(f"  My prediction: {prob:.4f}")
-        print(f"  Submitting tx (bond: {bond_amount/1e18} ETH)...")
+        print(f"  Submitting tx (bond: {bond_amount/1e18} MON)...")
 
         receipt = self.predict(market_id, prob_wad, bond_amount)
         tx_hash = receipt["transactionHash"].hex()
@@ -230,12 +230,12 @@ class CustomAgent:
     def run(self):
         """Main loop: poll for new markets and predict on them."""
         print("=" * 50)
-        print("  Yiling Market — Custom Agent")
+        print("  Yiling Protocol — Custom Agent")
         print(f"  Address: {self.address}")
         print(f"  Contract: {CONTRACT_ADDRESS}")
         print(f"  RPC: {RPC_URL}")
         balance = self.w3.eth.get_balance(self.address)
-        print(f"  Balance: {balance/1e18:.4f} ETH")
+        print(f"  Balance: {balance/1e18:.4f} MON")
         print("=" * 50)
 
         self.baseline = self.contract.functions.getMarketCount().call()

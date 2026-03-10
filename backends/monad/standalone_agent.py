@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Yiling Market — Standalone Agent
+Yiling Protocol — Standalone Agent
 
 Run your own prediction agent on your own PC with your own wallet.
 No central orchestrator needed. Polls the blockchain for new markets,
@@ -33,7 +33,7 @@ from agents.profiles import AGENT_PROFILES
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Yiling Market — Standalone Prediction Agent"
+        description="Yiling Protocol — Standalone Prediction Agent"
     )
 
     # Wallet & chain
@@ -46,7 +46,7 @@ def parse_args():
         help="PredictionMarket contract address (or set CONTRACT_ADDRESS)",
     )
     parser.add_argument(
-        "--rpc", default=os.getenv("RPC_URL", "https://sepolia.base.org"),
+        "--rpc", default=os.getenv("RPC_URL", "https://testnet-rpc.monad.xyz"),
         help="RPC URL (or set RPC_URL)",
     )
 
@@ -219,11 +219,11 @@ class StandaloneAgent:
             params = self.client.get_market_params(market_id)
             bond = params["bond_amount"]
             balance = self.client.w3.eth.get_balance(self.address)
-            gas_buffer = int(0.01e18)  # 0.01 ETH for gas
+            gas_buffer = int(0.01e18)  # 0.01 MON for gas
 
             if balance < bond + gas_buffer:
                 print(f"[{self.name}] Insufficient balance for market #{market_id} "
-                      f"(need {(bond + gas_buffer) / 1e18:.4f} ETH, have {balance / 1e18:.4f} ETH)")
+                      f"(need {(bond + gas_buffer) / 1e18:.4f} MON, have {balance / 1e18:.4f} MON)")
                 return
         except Exception as e:
             print(f"[{self.name}] Balance check failed for market #{market_id}: {e}")
@@ -255,7 +255,7 @@ class StandaloneAgent:
             prob_wad = int(prob * WAD)
             prob_wad = max(int(0.01e18), min(int(0.99e18), prob_wad))
 
-            print(f"[{self.name}] Submitting TX (bond={bond / 1e18:.4f} ETH)...")
+            print(f"[{self.name}] Submitting TX (bond={bond / 1e18:.4f} MON)...")
             receipt = self.client.predict(market_id, prob_wad, bond)
             tx_hash = receipt["transactionHash"].hex()
             print(f"[{self.name}] TX confirmed: {tx_hash}")
@@ -346,7 +346,7 @@ Rules:
                 self.claimed_markets.add(market_id)
                 return
 
-            print(f"[{self.name}] Claiming payout for market #{market_id}: {payout / 1e18:.6f} ETH")
+            print(f"[{self.name}] Claiming payout for market #{market_id}: {payout / 1e18:.6f} MON")
             self.client.claim_payout(market_id)
             self.claimed_markets.add(market_id)
             print(f"[{self.name}] Payout claimed!")
@@ -385,7 +385,7 @@ def main():
     print(f"[{name}] Wallet: {client.address}")
 
     balance = client.w3.eth.get_balance(client.address)
-    print(f"[{name}] Balance: {balance / 1e18:.4f} ETH")
+    print(f"[{name}] Balance: {balance / 1e18:.4f} MON")
 
     # Initialize LLM
     print(f"[{name}] LLM: {provider}" + (f"/{model}" if model else ""))
@@ -415,7 +415,7 @@ def main():
     print(f"  +---------------------------------------------------+")
     print(f"  Agent    : {name}")
     print(f"  Wallet   : {client.address}")
-    print(f"  Balance  : {balance / 1e18:.4f} ETH")
+    print(f"  Balance  : {balance / 1e18:.4f} MON")
     print(f"  Contract : {args.contract}")
     print(f"  RPC      : {args.rpc}")
     print(f"  LLM      : {llm.provider_name}")

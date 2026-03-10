@@ -1,5 +1,5 @@
 """
-Yiling Market - REST API Server
+Yiling Protocol - REST API Server
 Provides endpoints for external agent registration and market data queries.
 
 Run standalone:  uvicorn api_server:app --host 0.0.0.0 --port 8000
@@ -18,7 +18,7 @@ from agent_registry import AgentRegistry
 # ─── App & Registry ───────────────────────────────────────────────────────────
 
 app = FastAPI(
-    title="Yiling Market API",
+    title="Yiling Protocol API",
     description="Oracle-Free Self-Resolving Prediction Market — Agent SDK API",
     version="1.0.0",
 )
@@ -501,6 +501,40 @@ def get_abi():
         return JSONResponse(content=abi)
     except FileNotFoundError as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ─── Stats ─────────────────────────────────────────────────────────────────────
+
+import time as _time
+
+_stats_cache = {"data": None, "ts": 0}
+
+@app.get("/api/stats")
+def get_stats():
+    """Get aggregate stats (cached for 60s to avoid slow on-chain reads)."""
+    now = _time.time()
+    if _stats_cache["data"] and now - _stats_cache["ts"] < 60:
+        return _stats_cache["data"]
+
+    total_markets = 0
+    total_agents = 0
+
+    if _market_client:
+        try:
+            total_markets = _market_client.get_market_count()
+        except Exception:
+            pass
+
+    # Use orchestrator agent count or registered agents
+    if _orchestrator:
+        total_agents = len(_orchestrator.agents)
+    else:
+        total_agents = max(len(registry.list_all()), 7)
+
+    result = {"total_agents": total_agents, "total_markets": total_markets}
+    _stats_cache["data"] = result
+    _stats_cache["ts"] = now
+    return result
 
 
 # ─── Health ────────────────────────────────────────────────────────────────────

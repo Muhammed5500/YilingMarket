@@ -7,7 +7,7 @@ from agents.profiles import AGENT_PROFILES
 
 
 class Orchestrator:
-    """Yiling Market orchestrator - runs AI agents on detected markets."""
+    """Yiling Protocol orchestrator - runs AI agents on detected markets."""
 
     AGENT_TITLES = {p["name"]: p["title"] for p in AGENT_PROFILES}
 
@@ -86,10 +86,10 @@ class Orchestrator:
                 balance = agent.client.w3.eth.get_balance(agent.address)
                 needed = self.bond_amount + 500_000 * agent.client.w3.eth.gas_price
                 if balance < needed:
-                    print(f"[{agent.name}] Insufficient balance ({balance/1e18:.4f} ETH), skipping")
+                    print(f"[{agent.name}] Insufficient balance ({balance/1e18:.4f} MON), skipping")
                     self.broadcaster.emit("error", {
                         "agent": agent.name,
-                        "message": f"Low balance: {balance/1e18:.4f} ETH, skipping turn",
+                        "message": f"Low balance: {balance/1e18:.4f} MON, skipping turn",
                     })
                     continue
 

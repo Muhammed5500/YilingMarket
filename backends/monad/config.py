@@ -4,9 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Base Sepolia
-RPC_URL = os.getenv("RPC_URL", "https://sepolia.base.org")
-CHAIN_ID = 84532
+# Monad Testnet
+RPC_URL = os.getenv("RPC_URL", "https://testnet-rpc.monad.xyz")
+CHAIN_ID = 10143
 
 # Contract - set after deployment
 CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS", "")
@@ -26,9 +26,9 @@ LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
 # Market defaults
 DEFAULT_ALPHA = int(0.1e18)             # 10% stop probability (~10 predictions per market)
 DEFAULT_K = 2                           # Last 2 agents get flat reward
-DEFAULT_FLAT_REWARD = int(0.001e18)     # 0.001 ETH flat reward R
-DEFAULT_BOND_AMOUNT = int(0.001e18)     # 0.001 ETH bond (deposit) per prediction
-DEFAULT_LIQUIDITY_PARAM = int(0.003e18) # b = 0.003 ETH — SCEM scaling parameter
+DEFAULT_FLAT_REWARD = int(0.01e18)      # 0.01 MON flat reward R
+DEFAULT_BOND_AMOUNT = int(0.1e18)       # 0.1 MON bond (deposit) per prediction
+DEFAULT_LIQUIDITY_PARAM = int(1e18)     # b = 1 MON — SCEM scaling parameter
 DEFAULT_INITIAL_PRICE = int(0.5e18)     # 50%
 # Note: protocol fee and treasury are set on-chain at deploy time (not configurable per-market)
 
