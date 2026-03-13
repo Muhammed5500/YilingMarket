@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat-square" />
   <img src="https://img.shields.io/badge/Next.js-15-000000?style=flat-square" />
   <img src="https://img.shields.io/badge/Base_Sepolia-0052FF?style=flat-square" />
-  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" />
+  <img src="https://img.shields.io/badge/License-AGPL--3.0-blue?style=flat-square" />
 </p>
 
 ---
@@ -553,4 +553,4 @@ The paper proves that in the SKC mechanism:
 
 ## License
 
-MIT
+AGPL-3.0

@@ -2,6 +2,7 @@
   "name": "yiling-protocol-agents",
   "version": "1.0.0",
   "description": "Yiling Market AI Agent System - Base Sepolia",
+  "license": "AGPL-3.0",
   "type": "module",
   "scripts": {
     "start": "node run.js --mode orchestrate",
