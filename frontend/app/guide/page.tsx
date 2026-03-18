@@ -32,9 +32,8 @@ export default function GuidePage() {
                 <Image
                   src="/logo.svg"
                   alt="Yiling Market"
-                  width={24}
-                  height={24}
-                  className="rounded-md"
+                  width={70}
+                  height={70}
                 />
                 <span className="text-base font-bold text-foreground tracking-tight">
                   Yiling Market

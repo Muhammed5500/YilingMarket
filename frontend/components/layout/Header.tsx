@@ -28,9 +28,8 @@ export function Header({ gasPrice, isConnected, isConnecting, onCreateMarket }: 
               <Image
                 src="/logo.svg"
                 alt="Yiling Market"
-                width={28}
-                height={28}
-                className="rounded-lg"
+                width={70}
+                height={70}
               />
               <span className="text-base font-semibold text-foreground tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
                 Yiling Market

@@ -1,16 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <defs>
-    <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#e8894a"/>
-      <stop offset="100%" stop-color="#d4692a"/>
-    </linearGradient>
-  </defs>
-  <rect width="32" height="32" rx="8" fill="url(#g5)"/>
-  <!-- Clipboard body -->
-  <rect x="10" y="9" width="12" height="15" rx="2" fill="none" stroke="white" stroke-width="1.8" opacity="0.95"/>
-  <!-- Clipboard clip -->
-  <rect x="13" y="7" width="6" height="4" rx="1.5" fill="none" stroke="white" stroke-width="1.5" opacity="0.95"/>
-  <!-- Arrow pointing up-right -->
-  <path d="M14.5 19.5L20 14" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.95"/>
-  <path d="M16.5 13.5H20.5V17.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.95"/>
+<svg width="32" height="32" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(256,256)">
+    <path d="M-8,-8 C-8,-80 -80,-80 -80,-8 Z" fill="#111111"/>
+    <path d="M-8,8 C-8,80 -80,80 -80,8 Z" fill="#111111"/>
+    <circle cx="44" cy="-44" r="36" fill="#2563EB"/>
+    <path d="M8,8 C8,80 80,80 80,8 Z" fill="#111111"/>
+  </g>
 </svg>
